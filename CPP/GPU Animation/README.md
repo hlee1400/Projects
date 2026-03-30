@@ -4,7 +4,7 @@ A real-time 3D animation engine built with **DirectX 11** and **HLSL compute sha
 
 ## Demo
 
-[![Engine Demo](https://youtu.be/fJgJ7EWizRg)]
+[Engine Demo](https://youtu.be/fJgJ7EWizRg)
 
 
 ## Key Technical Features
