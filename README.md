@@ -1,4 +1,4 @@
-# Projects
+# Overview
 
 This repository showcases systems-focused and performance-oriented work across **C++ engine architecture, GPU programming, and applied deep learning**.
 
