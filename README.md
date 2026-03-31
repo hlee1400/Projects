@@ -66,7 +66,7 @@ A multimodal deep learning pipeline combining CNN encoders and attention-based s
 - SE 456 — Architecture of Real-Time Systems  
 - CSC 486 — Real-Time Networking  
 
-### Graphics & Game Development
+### Graphics & Game Engine Development
 - GAM 425 — Applied 3D Geometry  
 - GAM 470 — Rendering / Graphics Programming  
 - GAM 475 / 575 — Real-Time Software Development I & II  
