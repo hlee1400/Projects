@@ -99,7 +99,7 @@
 
   ### Training Loss Curve
 
-  ![Training vs Validation Loss](output%20samples/training_vs_validation_loss.png)
+  ![Training vs Validation Loss](output_samples/training_vs_validation_loss.png)
 
   Both training and validation loss decrease steadily over ~20 epochs, converging around 3.4–3.5. The tight gap between the two curves indicates the model generalizes well without significant overfitting.
 
