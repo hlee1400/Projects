@@ -4,8 +4,7 @@ A real-time 3D animation engine built with **DirectX 11** and **HLSL compute sha
 
 ## Demo
 
-[![Watch the demo](https://img.shields.io/badge/Watch-Demo%20Video-red?style=for-the-badge&logo=youtube)](https://youtu.be/fJgJ7EWizRg)
-
+[![Watch the demo](https://img.youtube.com/vi/fJgJ7EWizRg/maxresdefault.jpg)](https://youtu.be/fJgJ7EWizRg)
 
 ## Key Technical Features
 
@@ -349,13 +348,13 @@ void ComputeBlend_TwoAnim::privMixerExecute()
 
 ## Technical Stack
 
-| Component         | Technology                                       |
-|-------------------|--------------------------------------------------|
-| Graphics API      | DirectX 11                                       |
-| Shading Language  | HLSL (Vertex, Pixel, Compute) — Shader Model 5.0 |
-| Language          | C++                                              |
-| Asset Format      | GLTF / Protocol Buffers                          |
-| Platform          | Windows                                          |
+| Component | Technology |
+|-----------|-----------|
+| Graphics API | DirectX 11 |
+| Shading Language | HLSL (Vertex, Pixel, Compute) — Shader Model 5.0 |
+| Language | C++ |
+| Asset Format | GLTF / Protocol Buffers |
+| Platform | Windows |
 
 ## Architecture Overview
 
@@ -363,14 +362,12 @@ void ComputeBlend_TwoAnim::privMixerExecute()
 Engine Architecture
 ===========================================
 
-            StateDirectXMan (Singleton)
-        /              |                   \
+         StateDirectXMan (Singleton)
+        /          |           \
    ID3D11Device  ID3D11DeviceContext  IDXGISwapChain
        |               |                    |
   Create Buffers   Bind & Draw           Present
   Create States    Dispatch Compute      VSync
-
-
 
 Pipeline State Objects
 ===========================================
@@ -378,14 +375,10 @@ StateBlend ──── StateRasterizer ──── StateDepthStencil
      |                |                     |
  OMSetBlendState  RSSetState     OMSetDepthStencilState
 
-
-
 GPU Buffer Wrappers
 ===========================================
 BufferVBV_ia ─── BufferIBV_ia ─── BufferCBV_vs/ps/cs
 BufferSRV_cs ─── BufferUAV_cs ─── BufferTexture2D
-
-
 
 Compute Shader Pipeline (GPU)
 ===========================================
