@@ -346,6 +346,24 @@ void ComputeBlend_TwoAnim::privMixerExecute()
 
 ---
 
+## Featured Source Files
+
+The files below are included in this repository as representative samples of the engine's implementation. Each one highlights a distinct area of expertise.
+
+### [`ComputeBlend_TwoAnim.cpp`](Engine/src/ComputeBlend_TwoAnim.cpp) — GPU Compute Pipeline Orchestration
+The CPU-side driver for a three-stage animation blending pipeline. It binds SRVs, UAVs, and constant buffers, then dispatches three compute shaders in sequence (MixerA, MixerB, MixerC) followed by a world-matrix pass — all without any data round-tripping back to the CPU. Demonstrates direct control over GPU resource lifecycles and multi-pass dispatch ordering.
+
+### [`WorldA.Cx.hlsl`](Engine/shaders/original/WorldA.Cx.hlsl) — GPU-Parallel Hierarchy Traversal
+A compute shader where each thread walks a bone's parent chain through a pre-computed hierarchy table, accumulating TRS matrices into a final world-space transform. Includes a full quaternion-to-rotation-matrix conversion (`Bone2Matrix`). Shows how to map an inherently sequential tree-walk into a data-parallel GPU workload.
+
+### [`MixerA.Cx.hlsl`](Engine/shaders/original/MixerA.Cx.hlsl) — Quaternion SLERP on the GPU
+Per-bone keyframe interpolation implemented entirely in HLSL. Handles edge cases — collinear quaternions (dot product near 1.0), opposite-hemisphere quaternions (negative dot product) — to maintain numerical stability. Each thread independently blends one bone's translation, rotation, and scale between two keyframes.
+
+### [`ConvertSkin.cpp`](Converter/ConvertSkin.cpp) — Asset Pipeline & Data Engineering
+A GLTF-to-custom-format converter that parses `.glb` files via tinygltf, extracts 4-bone skinning data (joint indices, weights, inverse bind matrices), merges multi-mesh primitives into unified vertex/index buffers with corrected offsets, and serializes the result with Protocol Buffers. Demonstrates offline tooling, binary format parsing, and data transformation at the asset-pipeline level.
+
+---
+
 ## Technical Stack
 
 | Component | Technology |

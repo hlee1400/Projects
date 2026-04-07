@@ -1,0 +1,515 @@
+@startuml GPU_Animation_Engine_Architecture
+!theme plain
+skinparam linetype ortho
+skinparam classAttributeIconSize 0
+skinparam classFontSize 11
+skinparam packageFontSize 13
+skinparam packageStyle rectangle
+skinparam groupInheritance 2
+
+title GPU Animation Engine — Class Architecture
+
+' ============================================================
+'  CORE BASE CLASSES
+' ============================================================
+package "Core Base Classes" #F5F5F5 {
+    abstract class PCSNode {
+        - pParent : PCSNode*
+        - pChild : PCSNode*
+        - pNextSibling : PCSNode*
+        - pName : char[32]
+    }
+
+    abstract class DLink {
+        - pNext : DLink*
+        - pPrev : DLink*
+        + {abstract} Wash()
+        + {abstract} Dump()
+    }
+}
+
+' ============================================================
+'  GAME OBJECT HIERARCHY
+' ============================================================
+package "Game Object Hierarchy" #E8F5E9 {
+    abstract class GameObject {
+        # poWorld : Mat4*
+        # poGraphicsObject : GraphicsObject*
+        # mDrawEnable : bool
+        + {abstract} Update(AnimTime)
+        + Draw()
+    }
+
+    class GameObjectRigid {
+    }
+
+    class GameObjectBasic {
+        - poScale : Vec3*
+        - poQuat : Quat*
+        - poTrans : Vec3*
+    }
+
+    class GameObjectAnim {
+        - index : int
+    }
+
+    class GameObjectAnimSkin {
+        - poScale : Vec3*
+        - poQuat : Quat*
+        - poTrans : Vec3*
+        - pBlend : ComputeBlend*
+    }
+}
+
+PCSNode <|-- GameObject
+GameObject <|-- GameObjectRigid
+GameObjectRigid <|-- GameObjectBasic
+GameObject <|-- GameObjectAnim
+GameObjectAnim <|-- GameObjectAnimSkin
+
+' ============================================================
+'  GRAPHICS OBJECT HIERARCHY
+' ============================================================
+package "Graphics Object Hierarchy" #E3F2FD {
+    abstract class GraphicsObject_Abstract {
+        + {abstract} SetState()
+        + {abstract} SetDataGPU()
+        + {abstract} Draw()
+        + {abstract} RestoreState()
+    }
+
+    class GraphicsObject {
+        # pMesh : Mesh*
+        # poWorld : Mat4*
+        # pShaderObj : ShaderObject*
+    }
+
+    class GraphicsObject_FlatTexture {
+        - pTex : TextureObject*
+    }
+    class GraphicsObject_LightTexture {
+        - pTex : TextureObject*
+        - poLightColor : Vec3*
+        - poLightPos : Vec3*
+    }
+    class GraphicsObject_SkinFlatTexture {
+        - pTex : TextureObject*
+        - poComputeBlend : ComputeBlend*
+    }
+    class GraphicsObject_SkinLightTexture {
+        - pTex : TextureObject*
+        - poComputeBlend : ComputeBlend*
+        - poLightColor : Vec3*
+        - poLightPos : Vec3*
+    }
+    class GraphicsObject_Wireframe
+    class GraphicsObject_ConstColor
+    class GraphicsObject_ColorByVertex
+    class GraphicsObject_Sprite {
+        - pImage : Image*
+        - pTexture : TextureObject*
+    }
+    class GraphicsObject_Null
+}
+
+GraphicsObject_Abstract <|-- GraphicsObject
+GraphicsObject <|-- GraphicsObject_FlatTexture
+GraphicsObject <|-- GraphicsObject_LightTexture
+GraphicsObject <|-- GraphicsObject_SkinFlatTexture
+GraphicsObject <|-- GraphicsObject_SkinLightTexture
+GraphicsObject <|-- GraphicsObject_Wireframe
+GraphicsObject <|-- GraphicsObject_ConstColor
+GraphicsObject <|-- GraphicsObject_ColorByVertex
+GraphicsObject <|-- GraphicsObject_Sprite
+GraphicsObject <|-- GraphicsObject_Null
+
+' ============================================================
+'  SHADER OBJECT HIERARCHY
+' ============================================================
+package "Shader Object Hierarchy" #FFF3E0 {
+    abstract class ShaderObject {
+        # name : ShaderObject::Name
+        + {abstract} ActivateShader()
+        + {abstract} TransferWorldViewProj(...)
+    }
+
+    class ShaderObject_FlatTexture {
+        - VertexShader : BufferVertexShader_vs
+        - PixelShader : BufferPixelShader_ps
+        - InputLayout : BufferInputLayout_ia
+        - ConstantBuff_Projection : BufferCBV_vs
+        - ConstantBuff_View : BufferCBV_vs
+        - ConstantBuff_World : BufferCBV_vs
+    }
+    class ShaderObject_LightTexture
+    class ShaderObject_SkinFlatTexture
+    class ShaderObject_SkinLightTexture
+    class ShaderObject_ConstColor
+    class ShaderObject_ColorByVertex
+    class ShaderObject_Sprite
+    class ShaderObject_Null
+
+    class ShaderObject_MixerA {
+        - ComputeShader : BufferComputeShader_cs
+    }
+    class ShaderObject_MixerB
+    class ShaderObject_MixerC
+    class ShaderObject_WorldA {
+        - ComputeShader : BufferComputeShader_cs
+    }
+    class ShaderObject_WorldC
+}
+
+ShaderObject <|-- ShaderObject_FlatTexture
+ShaderObject <|-- ShaderObject_LightTexture
+ShaderObject <|-- ShaderObject_SkinFlatTexture
+ShaderObject <|-- ShaderObject_SkinLightTexture
+ShaderObject <|-- ShaderObject_ConstColor
+ShaderObject <|-- ShaderObject_ColorByVertex
+ShaderObject <|-- ShaderObject_Sprite
+ShaderObject <|-- ShaderObject_Null
+ShaderObject <|-- ShaderObject_MixerA
+ShaderObject <|-- ShaderObject_MixerB
+ShaderObject <|-- ShaderObject_MixerC
+ShaderObject <|-- ShaderObject_WorldA
+ShaderObject <|-- ShaderObject_WorldC
+
+' ============================================================
+'  MESH HIERARCHY
+' ============================================================
+package "Mesh Hierarchy" #FCE4EC {
+    abstract class Mesh {
+        # name : Mesh::Name
+        # numVerts : unsigned int
+        # numIndices : unsigned int
+        + {abstract} ActivateMesh()
+        + {abstract} RenderIndexBuffer()
+    }
+
+    class MeshProto {
+        - VBVBuffer_pos : BufferVBV_ia
+        - VBVBuffer_color : BufferVBV_ia
+        - VBVBuffer_tex : BufferVBV_ia
+        - VBVBuffer_norm : BufferVBV_ia
+        - VBVBuffer_weight : BufferVBV_ia
+        - VBVBuffer_joint : BufferVBV_ia
+        - IBVBuffer : BufferIBV_ia
+        - SRVBufferToVS_InvBind : BufferSRV_cs
+    }
+
+    class MeshNull
+}
+
+Mesh <|-- MeshProto
+Mesh <|-- MeshNull
+
+' ============================================================
+'  COMPUTE BLEND & MIXER HIERARCHY
+' ============================================================
+package "GPU Compute Pipeline" #F3E5F5 {
+    abstract class ComputeBlend {
+        + {abstract} Execute()
+        + {abstract} BindWorldBoneArray()
+    }
+
+    class ComputeBlend_OneAnim {
+        - poMixerA : MixerA*
+        - poWorldComputeA : WorldComputeA*
+    }
+
+    class ComputeBlend_TwoAnim {
+        - poMixerA : MixerA*
+        - poMixerB : MixerB*
+        - poMixerC : MixerC*
+        - poWorldComputeC : WorldComputeC*
+        + AnimateMixerA(Clip*, AnimTime)
+        + AnimateMixerB(Clip*, AnimTime)
+        + AnimateMixerC(float)
+    }
+
+    abstract class Mixer {
+        # mMixerResult : BufferUAV_cs
+        # mMixerConstBuffer : BufferCBV_cs
+    }
+
+    class MixerA {
+        - pKeyAa : BufferSRV_cs*
+        - pKeyAb : BufferSRV_cs*
+    }
+    class MixerB {
+        - pKeyBa : BufferSRV_cs*
+        - pKeyBb : BufferSRV_cs*
+    }
+    class MixerC {
+        - pKeyCa : BufferUAV_cs*
+        - pKeyCb : BufferUAV_cs*
+    }
+}
+
+ComputeBlend <|-- ComputeBlend_OneAnim
+ComputeBlend <|-- ComputeBlend_TwoAnim
+Mixer <|-- MixerA
+Mixer <|-- MixerB
+Mixer <|-- MixerC
+
+ComputeBlend_OneAnim *-- MixerA
+ComputeBlend_TwoAnim *-- MixerA
+ComputeBlend_TwoAnim *-- MixerB
+ComputeBlend_TwoAnim *-- MixerC
+
+' ============================================================
+'  ANIMATION SYSTEM
+' ============================================================
+package "Animation System" #FFFDE7 {
+    abstract class AnimController {
+        + {abstract} Update(AnimTime)
+    }
+
+    class AnimController_OneAnim {
+        - poAnimA : Anim*
+        - poTimerControlA : TimerController*
+        - mRatioA : float
+        - pBlend : ComputeBlend_OneAnim*
+    }
+
+    class Anim {
+        - poSkeleton : Skeleton*
+        - pClip : Clip*
+    }
+
+    class ClipProto
+    class Skeleton
+    class FrameBucket
+}
+
+AnimController <|-- AnimController_OneAnim
+AnimController_OneAnim o-- Anim
+AnimController_OneAnim o-- ComputeBlend_OneAnim
+Anim o-- Skeleton
+Anim o-- ClipProto
+
+' ============================================================
+'  CAMERA
+' ============================================================
+package "Camera System" #E0F7FA {
+    class Camera {
+        - projMatrix : Mat4
+        - viewMatrix : Mat4
+        - vPos : Vec3
+        - vLookAt : Vec3
+        - vUp : Vec3
+        - camType : Camera::Type
+        - fovy : float
+        - aspectRatio : float
+        - nearDist : float
+        - farDist : float
+        + SetPerspective(...)
+        + SetOrthographic(...)
+        + UpdateCamera()
+    }
+
+    class CameraNull
+}
+
+Camera <|-- CameraNull
+
+' ============================================================
+'  DIRECTX STATE MANAGEMENT
+' ============================================================
+package "DirectX State Management" #EFEBE9 {
+    class StateDirectXMan <<Singleton>> {
+        - {static} posInstance : StateDirectXMan*
+        - mD3DDevice : StateDevice
+        - mD3DDeviceContext : StateDeviceContext
+        - mD3DSwapChain : StateSwapChain
+        + {static} GetDevice() : ID3D11Device*
+        + {static} GetContext() : ID3D11DeviceContext*
+    }
+
+    class StateDevice
+    class StateDeviceContext
+    class StateSwapChain
+    class StateFactory
+    class StateAdapter
+    class StateAdapterOutput
+
+    class StateBlend {
+        - poD3DBlendState : ID3D11BlendState*
+        + Initialize(Mode)
+        + Activate()
+    }
+    class StateRasterizer {
+        - poD3DRasterizerState : ID3D11RasterizerState*
+        + Initialize(Mode)
+        + Activate()
+    }
+    class StateDepthStencil {
+        - poD3DDepthStencilState : ID3D11DepthStencilState*
+    }
+    class StateDepthStencilBuffer
+    class StateDepthStencilView
+    class StateRenderTargetView
+    class StateViewport
+    class StateDebug
+}
+
+StateDirectXMan *-- StateDevice
+StateDirectXMan *-- StateDeviceContext
+StateDirectXMan *-- StateSwapChain
+StateFactory ..> StateAdapter
+StateAdapter ..> StateAdapterOutput
+
+' ============================================================
+'  GPU BUFFER WRAPPERS
+' ============================================================
+package "GPU Buffer Wrappers" #E8EAF6 {
+    class BufferVBV_ia {
+        - poBufferVBV : ID3D11Buffer*
+        + Activate(slot)
+    }
+    class BufferIBV_ia {
+        - poBufferIBV : ID3D11Buffer*
+        + Activate()
+    }
+    class BufferCBV_vs {
+        - poBufferCBV : ID3D11Buffer*
+        + Transfer(data)
+        + BindToVS(slot)
+    }
+    class BufferCBV_ps
+    class BufferCBV_cs {
+        - poBufferCBV : ID3D11Buffer*
+        + Transfer(data)
+        + BindCompute(slot)
+    }
+    class BufferSRV_cs {
+        - poBuffer : ID3D11Buffer*
+        - poSRV : ID3D11ShaderResourceView*
+        + BindComputeToCS(slot)
+        + BindComputeToVS(slot)
+    }
+    class BufferUAV_cs {
+        - poBuffer : ID3D11Buffer*
+        - poUAV : ID3D11UnorderedAccessView*
+        + BindCompute(slot)
+    }
+    class BufferVertexShader_vs
+    class BufferPixelShader_ps
+    class BufferComputeShader_cs
+    class BufferInputLayout_ia
+    class BufferTexture2D
+    class BufferTextureSRV_ps
+    class BufferSamplerState_ps
+}
+
+' ============================================================
+'  RESOURCE MANAGERS (Singletons)
+' ============================================================
+package "Resource Managers" #F1F8E9 {
+    class GameObjectMan <<Singleton>>
+    class MeshNodeMan <<Singleton>>
+    class ShaderObjectNodeMan <<Singleton>>
+    class CameraMan <<Singleton>>
+    class ClipMan <<Singleton>>
+    class HierarchyTableMan <<Singleton>>
+    class JointTableMan <<Singleton>>
+    class ImageMan <<Singleton>>
+    class GlyphMan <<Singleton>>
+    class GameMan <<Singleton>>
+}
+
+' ============================================================
+'  ASSET PIPELINE (Converter)
+' ============================================================
+package "Asset Pipeline (Converter)" #FBE9E7 {
+    class GLTF {
+        + Load(filename) : tinygltf::Model
+        + GetBinaryBlob()
+        + GetRawJSON()
+    }
+    class ConvertMesh
+    class ConvertSkin
+    class ConvertAnim
+    class ConvertSkeleton
+    class ConvertHierarchy
+    class ConvertJoint
+    class ConvertXML
+    class CreateTexture
+}
+
+GLTF <.. ConvertMesh : reads
+GLTF <.. ConvertSkin : reads
+GLTF <.. ConvertAnim : reads
+GLTF <.. ConvertSkeleton : reads
+GLTF <.. ConvertHierarchy : reads
+
+' ============================================================
+'  KEY COMPOSITION RELATIONSHIPS
+' ============================================================
+GameObject *-- GraphicsObject : renders via
+GraphicsObject o-- Mesh : geometry
+GraphicsObject o-- ShaderObject : pipeline
+GameObjectAnimSkin o-- ComputeBlend : GPU animation
+
+ShaderObject_FlatTexture *-- BufferVertexShader_vs
+ShaderObject_FlatTexture *-- BufferPixelShader_ps
+ShaderObject_FlatTexture *-- BufferInputLayout_ia
+ShaderObject_FlatTexture *-- BufferCBV_vs
+
+ShaderObject_MixerA *-- BufferComputeShader_cs
+
+MeshProto *-- BufferVBV_ia
+MeshProto *-- BufferIBV_ia
+MeshProto *-- BufferSRV_cs
+
+MixerA *-- BufferSRV_cs
+MixerB *-- BufferSRV_cs
+MixerC *-- BufferUAV_cs
+Mixer *-- BufferUAV_cs
+Mixer *-- BufferCBV_cs
+
+' ============================================================
+'  HLSL COMPUTE SHADERS (GPU side)
+' ============================================================
+package "HLSL Compute Shaders (GPU)" #D1C4E9 {
+    class "MixerA.Cx.hlsl" as MixerA_HLSL <<compute>> {
+        Quaternion SLERP
+        Vector LERP
+        Per-bone keyframe blend
+    }
+    class "MixerB.Cx.hlsl" as MixerB_HLSL <<compute>> {
+        Same as MixerA
+        Second animation track
+    }
+    class "MixerC.Cx.hlsl" as MixerC_HLSL <<compute>> {
+        Cross-blend A + B results
+    }
+    class "WorldA.Cx.hlsl" as WorldA_HLSL <<compute>> {
+        Hierarchy traversal
+        TRS matrix composition
+        Bone2Matrix conversion
+    }
+}
+
+note right of MixerA_HLSL
+  **GPU Dispatch Flow:**
+  SRV(KeyAa,KeyAb) -> MixerA -> UAV
+  SRV(KeyBa,KeyBb) -> MixerB -> UAV
+  UAV(A) + UAV(B)  -> MixerC -> UAV
+  UAV + SRV(Hierarchy) -> World -> UAV
+  CopyResource(UAV -> SRV) -> Vertex Shader
+end note
+
+' ============================================================
+'  MANAGER -> MANAGED NODE RELATIONSHIPS
+' ============================================================
+DLink <|-- MeshNode
+DLink <|-- ShaderObjectNode
+DLink <|-- CameraNode
+
+GameObjectMan ..> GameObject : manages
+MeshNodeMan ..> MeshNode : manages
+ShaderObjectNodeMan ..> ShaderObjectNode : manages
+CameraMan ..> CameraNode : manages
+
+@enduml
