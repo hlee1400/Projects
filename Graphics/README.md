@@ -2,6 +2,10 @@
 
 A custom real-time 3D rendering engine built from scratch in C++ using DirectX 11, demonstrating low-level GPU pipeline programming, shader architecture, advanced lighting models, and procedural terrain generation.
 
+## Demo
+
+[![Watch the demo](https://img.youtube.com/vi/DpzoupOMSfI/maxresdefault.jpg)](https://www.youtube.com/watch?v=DpzoupOMSfI)
+
 ---
 
 ## Project Overview
@@ -448,30 +452,30 @@ MeshSeparator::MeshSeparator(StandardVertex* pVerts, int nverts,
 
 ---
 
-## Why These Files? -- Showcased Source Code & Skill Alignment
+## Showcased Source Files & Skill Alignment
 
-If reviewing only two source files from this project, **`ShaderColorLight.h/.cpp`** and **`TerrainModel.cpp`** best demonstrate the skills relevant to graphics systems software engineering.
+These two files best represent the depth of this project. If reviewing source code, start here.
 
 ### `ShaderColorLight.h` + `ShaderColorLight.cpp`
 
-| Internship Requirement | How This File Demonstrates It |
-|------------------------|-------------------------------|
-| **Designing and implementing graphics drivers** | Directly configures the GPU rendering pipeline: creates constant buffers (`D3D11_BUFFER_DESC`), binds them to specific register slots (`VSSetConstantBuffers`, `PSSetConstantBuffers`), and marshals structured data from CPU to GPU via `UpdateSubresource` -- the same patterns used in real driver-level shader state management. |
-| **Supporting new hardware features** | The shader architecture is extensible by design -- adding a new light type or material property means defining a new struct, allocating a constant buffer, and binding it to the next register slot. This mirrors how driver teams expose new GPU features through the shader pipeline. |
+| Skill Area | How This File Demonstrates It |
+|------------|-------------------------------|
+| **Graphics Driver / Pipeline Programming** | Directly configures the GPU rendering pipeline: creates constant buffers (`D3D11_BUFFER_DESC`), binds them to specific register slots (`VSSetConstantBuffers`, `PSSetConstantBuffers`), and marshals structured data from CPU to GPU via `UpdateSubresource` -- the same patterns used in real driver-level shader state management. |
+| **Hardware Feature Support** | The shader architecture is extensible by design -- adding a new light type or material property means defining a new struct, allocating a constant buffer, and binding it to the next register slot. This mirrors how driver teams expose new GPU features through the shader pipeline. |
 | **Device Driver Programming** | Manages GPU resource lifecycle (buffer creation, COM `Release` in destructors), handles `HRESULT` error checking, and directly interfaces with the D3D11 device context -- the same API surface that graphics drivers implement beneath. |
 | **3D Graphics Theory & Implementation** | Implements the complete Phong illumination model with `PhongADS` (Ambient/Diffuse/Specular) structs, three distinct light types (directional, point with attenuation, spot with cone exponent), material properties, world-inverse matrix for normal transformation, and distance-based fog. |
 | **Low-Level Library Development** | Designed as a reusable shader abstraction layer inheriting from `ShaderBase`. The `SetToContext()` / `Send*()` API pattern cleanly separates pipeline state binding from per-object data upload -- a design used in production graphics middleware. |
-| **Simulation or Emulation (writing & debugging tests)** | Includes `D3DCOMPILE_DEBUG` and `D3DCOMPILE_SKIP_OPTIMIZATION` flags for shader debugging, enabling step-through debugging of GPU shaders -- directly relevant to conformance test development and hardware validation. |
+| **Debugging & Validation** | Includes `D3DCOMPILE_DEBUG` and `D3DCOMPILE_SKIP_OPTIMIZATION` flags for shader debugging, enabling step-through debugging of GPU shaders -- directly relevant to conformance test development and hardware validation. |
 
 ### `TerrainModel.cpp`
 
-| Internship Requirement | How This File Demonstrates It |
-|------------------------|-------------------------------|
-| **3D/2D Graphics Theory, Implementation & Optimizations** | Implements heightmap-to-mesh conversion end-to-end: texel sampling from raw pixel data, vertex grid generation with UV tiling, triangle strip construction, cross-product face normals, and per-vertex smooth normal averaging from 6 adjacent faces. This is textbook graphics theory applied to a working implementation. |
+| Skill Area | How This File Demonstrates It |
+|------------|-------------------------------|
+| **3D Graphics Theory & Optimizations** | Implements heightmap-to-mesh conversion end-to-end: texel sampling from raw pixel data, vertex grid generation with UV tiling, triangle strip construction, cross-product face normals, and per-vertex smooth normal averaging from 6 adjacent faces. This is textbook graphics theory applied to a working implementation. |
 | **Computer Architecture** | Demonstrates understanding of memory layout: raw pixel indexing (`pixel_width * (row * side + col)`), contiguous vertex/index array construction for efficient GPU upload, and awareness of data locality when iterating the height grid. |
-| **Designing and implementing graphics drivers / platform support** | Bridges CPU texture data to GPU geometry: loads a TGA heightmap via DirectXTex (`LoadFromTGAFile`, `ScratchImage`, `GetImage`), processes it on the CPU, then uploads the result as vertex/index buffers via `D3D11_BUFFER_DESC` and `CreateBuffer` -- the same CPU-to-GPU data pipeline that driver code manages. |
-| **Real-Time Systems Development** | The terrain is generated once at load time and rendered every frame via a single `DrawIndexed` call -- demonstrating the real-time constraint of separating expensive setup from per-frame rendering, a key concern in game console and embedded GPU systems. |
-| **Simulation or Emulation (writing & debugging tests)** | The heightmap approach itself is a form of simulation: sampling a 2D data source to procedurally reconstruct 3D geometry with correct normals. The parameterized constructor (`len`, `maxheight`, `ytrans`, `RepeatU`, `RepeatV`) makes it easy to create varied test terrains for visual validation. |
+| **GPU Pipeline / Platform Support** | Bridges CPU texture data to GPU geometry: loads a TGA heightmap via DirectXTex (`LoadFromTGAFile`, `ScratchImage`, `GetImage`), processes it on the CPU, then uploads the result as vertex/index buffers via `D3D11_BUFFER_DESC` and `CreateBuffer` -- the same CPU-to-GPU data pipeline that driver code manages. |
+| **Real-Time Systems** | The terrain is generated once at load time and rendered every frame via a single `DrawIndexed` call -- demonstrating the real-time constraint of separating expensive setup from per-frame rendering, a key concern in game console and embedded GPU systems. |
+| **Simulation & Testing** | The heightmap approach itself is a form of simulation: sampling a 2D data source to procedurally reconstruct 3D geometry with correct normals. The parameterized constructor (`len`, `maxheight`, `ytrans`, `RepeatU`, `RepeatV`) makes it easy to create varied test terrains for visual validation. |
 | **Low-Level Library Development** | Self-contained module with a clean interface: takes a device pointer and heightmap file, produces a renderable model. No external dependencies beyond DirectXTex and the project's own `Model` class. Demonstrates the kind of encapsulated, reusable component expected in graphics middleware and driver support libraries. |
 
 ---
