@@ -25,24 +25,7 @@
 
   ---
 
-  ### [Real-Time 3D Rendering Engine](./Graphics)
-  **C++ · DirectX 11 · HLSL**
-
-  A custom real-time 3D rendering engine built from scratch, demonstrating low-level GPU
-  pipeline programming, shader architecture, advanced lighting models, and procedural terrain
-  generation.
-
-  **Key Highlights:**
-  - Full D3D11 pipeline initialization (device, swap chain, rasterizer state, depth-stencil)
-  - Shader compilation and management with an object-oriented hierarchy
-  - Phong lighting system with directional, point, and spot lights, fog, and materials
-  - Heightmap-based terrain generation with per-vertex smooth normal averaging
-  - Custom perspective camera with OpenGL-to-DirectX NDC conversion
-  - GPU resource lifecycle management (constant buffers, vertex/index buffers, COM cleanup)
-
-  ---
-
-  ### [Optimized C++ -- Performance Engineering](./dyap)
+  ### [Optimized C++ -- Performance Engineering](./CPP)
   **C++ · SSE Intrinsics · MSVC**
 
   A collection of performance engineering assignments demonstrating low-level memory management, cache optimization, SIMD vectorization, custom heap allocators, and expression templates -- with measured speedups across all implementations.
@@ -67,6 +50,23 @@
   - End-to-end training and evaluation pipeline
   - Techniques for improving generalization and stability
   - Handling vanishing gradients and overfitting
+
+  ---
+
+  ### [Real-Time 3D Rendering Engine](./Graphics)
+  **C++ · DirectX 11 · HLSL**
+
+  A custom real-time 3D rendering engine built from scratch, demonstrating low-level GPU
+  pipeline programming, shader architecture, advanced lighting models, and procedural terrain
+  generation.
+
+  **Key Highlights:**
+  - Full D3D11 pipeline initialization (device, swap chain, rasterizer state, depth-stencil)
+  - Shader compilation and management with an object-oriented hierarchy
+  - Phong lighting system with directional, point, and spot lights, fog, and materials
+  - Heightmap-based terrain generation with per-vertex smooth normal averaging
+  - Custom perspective camera with OpenGL-to-DirectX NDC conversion
+  - GPU resource lifecycle management (constant buffers, vertex/index buffers, COM cleanup)
 
   ---
 
