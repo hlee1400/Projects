@@ -42,6 +42,21 @@
 
   ---
 
+  ### [Optimized C++ -- Performance Engineering](./dyap)
+  **C++ · SSE Intrinsics · MSVC**
+
+  A collection of performance engineering assignments demonstrating low-level memory management, cache optimization, SIMD vectorization, custom heap allocators, and expression templates -- with measured speedups across all implementations.
+
+  **Key Highlights:**
+  - Custom heap allocator with next-fit allocation, block subdivision, and bidirectional coalescing via secret pointers and bit-packed headers
+  - Cache-optimized hot/cold data separation achieving 40x speedup over naive linked list traversal
+  - SIMD intrinsics (SSE) for 4x4 matrix multiplication, vector-matrix products, and LERP
+  - Expression template proxy objects eliminating intermediate temporaries for 2.3x speedup
+  - Hybrid merge/insertion sort on linked lists (381x faster than pure insertion sort)
+  - Implicit conversion prevention via private template constructor poisoning
+
+  ---
+
   ### [Image Captioning System](./AI_ML)
   **Python · TensorFlow**
 
@@ -61,10 +76,13 @@
     Modular architecture, memory/resource management, pipeline orchestration
 
   - **High-Performance Computing**
-    GPU compute shaders, multistage dispatch, data-parallel workloads
+    GPU compute shaders, multistage dispatch, data-parallel workloads, SIMD vectorization
 
   - **Graphics & Rendering**
     Shader programming, 3D lighting models, GPU pipeline configuration, procedural geometry
+
+  - **Performance Engineering**
+    Cache optimization, custom allocators, expression templates, algorithm tuning with measured results
 
   - **Machine Learning**
     Deep learning architectures, training workflows, model optimization
