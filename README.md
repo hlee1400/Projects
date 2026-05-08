@@ -40,6 +40,21 @@
 
   ---
 
+  ### [Concurrent Maze Solver](./concurrent_maze)
+  **C++17 · std::thread · std::atomic · MSVC**
+
+  A multithreaded maze solver that runs two depth-first searches concurrently from opposite ends of a shared `std::atomic_uint[]` cell array. Achieves **~2.7× speedup over an optimized single-threaded DFS** (and ~3.8× over BFS) on mazes up to 20,000 × 20,000 cells (400 million cells), with synchronization reduced to a single atomic instruction per cell visit.
+
+  **Key Highlights:**
+  - Lock-free meet-in-the-middle detection via `fetch_or` -- one atomic RMW per cell visit, no mutexes or fences in the hot path
+  - `memory_order_relaxed` synchronization throughout, leveraging algorithmic idempotence under stale reads
+  - Visit bits co-located with wall data in a single `std::atomic_uint` -- one cache-line touch per step
+  - Corridor-skipping DFS that pushes only branch points onto the choice stack, not every cell
+  - Pre-reserved choice stacks (`reserve(400000)`) and result vectors -- zero allocator pressure inside the timed region
+  - Wall-clock benchmarking with `seq_cst` fence brackets around `QueryPerformanceCounter` to prevent reordering bias
+
+  ---
+
   ### [Image Captioning System](./AI_ML)
   **Python · TensorFlow**
 
