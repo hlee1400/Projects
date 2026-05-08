@@ -58,44 +58,6 @@ When the two DFS frontiers cross, one thread's `fetch_or` returns the other thre
 
 ---
 
-## Quick Start
-
-### Prerequisites
-- Visual Studio 2022 with the **MSVC v143** C++ toolset
-- Windows 10/11 SDK
-- x64 Windows host
-
-### Build
-```bat
-:: Open the solution in Visual Studio
-PA2\Maze 6.0 - Student Drop\Maze.sln
-
-:: Or build from the command line
-msbuild "PA2\Maze 6.0 - Student Drop\Maze.sln" /p:Configuration=Release /p:Platform=x64
-```
-
-The output binary `MazeX64Release.exe` and its `File_DLL_FastX64Release.dll` runtime dependency are written to `PA2\Maze 6.0 - Student Drop\x64\Release\`.
-
-### Run a single maze
-```bat
-MazeX64Release.exe Maze1Kx1K.data
-```
-
-### Run the contest benchmark suite
-```bat
-cd PA2\Maze_DevelopmentData
-copy "..\Maze 6.0 - Student Drop\x64\Release\MazeX64Release.exe" .
-copy "..\Maze 6.0 - Student Drop\x64\Release\File_DLL_FastX64Release.dll" .
-.\Test_Contest.bat
-type results_contest.txt
-```
-
-`Test_Contest.bat` runs the four grading mazes (`Maze15Kx15K_E/J.data`, `Maze20Kx20K_B/D.data`) and concatenates per-maze BFS / DFS / multithreaded results.
-
-> **Note:** `main.cpp` line 16 must be `#define FINAL_SUBMIT 1` for the binary to honor `argv`. With `FINAL_SUBMIT 0`, every run silently uses `Maze1kx1k.data` regardless of command line.
-
----
-
 ## Benchmark Results
 
 ### Multi-threaded vs single-threaded baselines, **1K × 1K maze, x64 Release**
