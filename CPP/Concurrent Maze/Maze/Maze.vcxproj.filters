@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="_Framework">
+      <UniqueIdentifier>{f04c9286-e219-4fb7-b306-f9717e9aba86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Maze Solvers">
+      <UniqueIdentifier>{17b840d9-3c0b-4821-8b80-da62aa9e8fd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_File">
+      <UniqueIdentifier>{64cd1644-283c-45fa-bff5-ea44f9e61c47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_File\include">
+      <UniqueIdentifier>{17293f94-5d36-40dc-81a5-0ba764f4da16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_File\libs">
+      <UniqueIdentifier>{49e3755d-3af6-46d6-ae4b-cf9bcc6a8e45}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Framework\__DO NOT MODIFY__">
+      <Filter>_Framework</Filter>
+    </None>
+    <None Include="ClassDiagram.cd" />
+    <None Include="..\dist\File\lib\File_DLL_FastX64Debug.dll">
+      <Filter>_File\libs</Filter>
+    </None>
+    <None Include="..\dist\File\lib\File_DLL_FastX64Debug.exp">
+      <Filter>_File\libs</Filter>
+    </None>
+    <None Include="..\dist\File\lib\File_DLL_FastX64Debug.pdb">
+      <Filter>_File\libs</Filter>
+    </None>
+    <None Include="..\dist\File\lib\File_DLL_FastX64Release.dll">
+      <Filter>_File\libs</Filter>
+    </None>
+    <None Include="..\dist\File\lib\File_DLL_FastX64Release.exp">
+      <Filter>_File\libs</Filter>
+    </None>
+    <None Include="..\dist\File\lib\File_DLL_FastX64Release.pdb">
+      <Filter>_File\libs</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Framework\Framework.h">
+      <Filter>_Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="MazeSolver.h">
+      <Filter>Maze Solvers</Filter>
+    </ClInclude>
+    <ClInclude Include="MTMazeStudentSolver.h">
+      <Filter>Maze Solvers</Filter>
+    </ClInclude>
+    <ClInclude Include="SkippingMazeSolver.h">
+      <Filter>Maze Solvers</Filter>
+    </ClInclude>
+    <ClInclude Include="STMazeSolverBFS.h">
+      <Filter>Maze Solvers</Filter>
+    </ClInclude>
+    <ClInclude Include="STMazeSolverDFS.h">
+      <Filter>Maze Solvers</Filter>
+    </ClInclude>
+    <ClInclude Include="Choice.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Direction.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Maze.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Position.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dist\File\include\File.h">
+      <Filter>_File\include</Filter>
+    </ClInclude>
+    <ClInclude Include="BottomUp_STMazeSolverDFS.h">
+      <Filter>Maze Solvers</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedData.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TopDown_DFSsolver.h">
+      <Filter>Maze Solvers</Filter>
+    </ClInclude>
+    <ClInclude Include="TopDown_solverBase.h">
+      <Filter>Maze Solvers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Direction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="maze.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BottomUp_SkippingMazeSolver.h">
+      <Filter>Maze Solvers</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\dist\File\lib\File_DLL_FastX64Debug.lib">
+      <Filter>_File\libs</Filter>
+    </Library>
+    <Library Include="..\dist\File\lib\File_DLL_FastX64Release.lib">
+      <Filter>_File\libs</Filter>
+    </Library>
+  </ItemGroup>
+</Project>

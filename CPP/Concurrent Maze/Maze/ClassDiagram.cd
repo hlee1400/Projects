@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Maze">
+    <Position X="2.5" Y="0.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAIgEAAFAAgBAQAQAAAAAAIAAAACAAgAAAAAAYAAAA=</HashCode>
+      <FileName>Maze.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MazeSolver">
+    <Position X="6.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAAIAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>MazeSolver.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MTMazeStudentSolver" Collapsed="true">
+    <Position X="7.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAACAAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MTMazeStudentSolver.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SolutionFoundSkip" Collapsed="true">
+    <Position X="7.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAIAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>SkippingMazeSolver.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SkippingMazeSolver" Collapsed="true">
+    <Position X="3.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAAAACAAAAAQgAAAA=</HashCode>
+      <FileName>SkippingMazeSolver.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="STMazeSolverBFS" Collapsed="true">
+    <Position X="2.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AICAAAAAAAAAAAAAABBAABAoAAAIAAAAAAAAEAAQCAA=</HashCode>
+      <FileName>STMazeSolverBFS.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="STMazeSolverDFS" Collapsed="true">
+    <Position X="4.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAIAIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>STMazeSolverDFS.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
