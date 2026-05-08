@@ -40,7 +40,7 @@
 
   ---
 
-  ### [Concurrent Maze Solver](./concurrent_maze)
+  ### [Concurrent Maze Solver](./CPP/Concurrent%20Maze)
   **C++17 · std::thread · std::atomic · MSVC**
 
   A multithreaded maze solver that runs two depth-first searches concurrently from opposite ends of a shared `std::atomic_uint[]` cell array. Achieves **~2.7× speedup over an optimized single-threaded DFS** (and ~3.8× over BFS) on mazes up to 20,000 × 20,000 cells (400 million cells), with synchronization reduced to a single atomic instruction per cell visit.
